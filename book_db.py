@@ -20,19 +20,19 @@ class books_db:
             author text NOT NULL,
             year text NOT NULL,
             genre text NOT NULL,
-            path_img text NOT NULL
+            path_book text NOT NULL
             )""")
         self.conn.commit()
 
 
 
-    def insert_book(self,title:str,author:str,year:str,genre:str,path_img:str,):
-        self.c.execute(f"""INSERT  INTO books(title,author,year,genre,path_img) VALUES ( 
+    def insert_book(self,title:str,author:str,year:str,genre:str,path_book:str,):
+        self.c.execute(f"""INSERT  INTO books(title,author,year,genre,path_book) VALUES ( 
         '{title}',
         '{author}',
         '{year}',
         '{genre}',
-        '{path_img}'
+        '{path_book}'
         )
         """)
         self.conn.commit()
@@ -79,9 +79,9 @@ class books_db:
         return colloum_arr
 
 
-    def get_all_path_img(self):
+    def get_all_path_book(self):
         colloum_arr = []
-        self.c.execute(f"SELECT path_img FROM books ")
+        self.c.execute(f"SELECT path_book FROM books ")
 
         rows = self.c.fetchall()
         for row in rows:

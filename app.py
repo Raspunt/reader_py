@@ -94,15 +94,16 @@ class Application:
 
     def OpenBtn(self):
         
-        path_imgs = self.db.get_all_path_img()
+        path_books = self.db.get_all_path_book()
+        cur_book =  self.books_grid.focus()
 
-        cur_img =  self.books_grid.focus()
-        print(path_imgs,cur_img)
+        int_cur_book = int(cur_book)
+        book = str(path_books[int_cur_book])        
+        book = book.replace(")","").replace("(","").replace("'","").replace(",","")
 
 
 
-
-        os.system(f"fbreader ")
+        os.system("fbreader " + book)
      
 
 
