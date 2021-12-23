@@ -10,26 +10,29 @@ class books_db:
     # title
     # author
     # year
+    # path_img
     # genre
 
     def create_table(self):
-        self.create_tablec.execute(f"""CREATE TABLE books (
+        self.c.execute(f"""CREATE TABLE books (
             book_id INTEGER PRIMARY KEY AUTOINCREMENT ,
             title text NOT NULL,
             author text NOT NULL,
-            year integer NOT NULL,
-            genre text NOT NULL
+            year text NOT NULL,
+            genre text NOT NULL,
+            path_img text NOT NULL
             )""")
         self.conn.commit()
 
 
 
-    def insert_book(self,title:str,author:str,year:int,genre:str):
-        self.c.execute(f"""INSERT  INTO books(title,author,year,genre) VALUES ( 
+    def insert_book(self,title:str,author:str,year:str,genre:str,path_img:str,):
+        self.c.execute(f"""INSERT  INTO books(title,author,year,genre,path_img) VALUES ( 
         '{title}',
         '{author}',
         '{year}',
-        '{genre}'
+        '{genre}',
+        '{path_img}'
         )
         """)
         self.conn.commit()
@@ -70,12 +73,21 @@ class books_db:
 
         rows = self.c.fetchall()
         for row in rows:
-            colloum_arr.append(row)
+            if row not in colloum_arr:
+                colloum_arr.append(row)
         
         return colloum_arr
 
 
+    def get_all_path_img(self):
+        colloum_arr = []
+        self.c.execute(f"SELECT path_img FROM books ")
 
+        rows = self.c.fetchall()
+        for row in rows:
+            colloum_arr.append(row)
+
+        return colloum_arr
 
 
     def close_db(self):
