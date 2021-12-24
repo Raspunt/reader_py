@@ -16,7 +16,7 @@ class Application:
 
     db = books_db()
     root = tk.Tk()
-    root.geometry("670x300")
+    root.geometry("870x300")
 
 
 
@@ -25,6 +25,14 @@ class Application:
 
     def set_filterBtn(self,filterBtn):
         self.filterBtn = filterBtn
+    
+    def set_ComboBox(self,comboBox):
+        self.comboBox = comboBox
+
+    def set_infoLabel2(self,infoLabel2):
+        self.infoLabel2 = infoLabel2
+    
+
 
 
     def CreateTable(self,data_db:list):
@@ -102,8 +110,9 @@ class Application:
         book = book.replace(")","").replace("(","").replace("'","").replace(",","")
 
 
-
-        os.system("fbreader " + book)
+        cmd = "start "+book
+        os.system("taskkill /IM FBReader.exe" )
+        os.system(cmd)
      
 
 
@@ -112,7 +121,95 @@ class Application:
         for i in self.books_grid.get_children():
             self.books_grid.delete(i)
 
+    
+    def ComboBoxOnChange(self,data):
         
+        self.ClearTable()
 
+        genre_name = self.comboBox.get()
+        # print(genre_name)
+        genre_name = str(genre_name.replace("{","").replace("}",""))
+
+        content = self.db.get_all_column()
+        
+        sort_arr = []
+        for con in content:
+            genre = str(con[4])
+            if genre == str(genre_name):
+                sort_arr.append(content[con[0] -1])
+
+              
+        self.CreateTable(sort_arr)
+
+
+    def resetBtn(self):
+        self.ClearTable()
+        self.CreateTable(self.db.get_all_column())
+
+
+    def ingo_update(self,data):
+        
+        file_id = self.books_grid.focus()
+        int_file_id = int(file_id)
+        files_path = self.db.get_all_path_book()
+
+        file_path = files_path[int_file_id]
+
+        file_path = str(file_path).replace("'","").replace(",","").replace("(","").replace(")","")
+
+        try:
+            
+
+            for line in self.read_first_20_lines(file_path):
+
+                line = str(line).replace("<annotation>","").replace("<p>","").replace("</p>","")
+                line = str(line).replace("\n","")
+
+                self.infoLabel2.delete(1.0,END)
+                self.infoLabel2.insert(tk.END,line)
+                
+
+                
+
+
+
+         
+            
+
+        except UnicodeDecodeError as e:
+            print("информация не получена")
+
+            
+
+
+
+
+     
+    def read_first_20_lines(self,file_path:str):
+
+        isAnotation = False
+        lines = []
+
+        with open(file_path,'r', encoding='utf8') as f:
+            
+            for i in range(1,25):
+                line = f.readline()
+
+                if line.find("<annotation>") != -1:
+                    isAnotation = True
+                
+                if line.find("</annotation>") != -1:
+                    isAnotation = False
+                
+                if isAnotation == True:
+                    lines.append(line)
+
+            f.close()
+
+       
+        
+  
+
+        return lines
 
     

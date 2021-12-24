@@ -88,19 +88,20 @@ class books_db:
             colloum_arr.append(row)
 
         return colloum_arr
+    
+    def findGenreById(self,id):
+        colloum_arr = []
+        self.c.execute(f"SELECT * FROM books WHERE genre={id}")
+
+        rows = self.c.fetchall()
+        for row in rows:
+            colloum_arr.append(row)
+
+        return colloum_arr
+
+ 
 
 
     def close_db(self):
         self.conn.close()
-
-# create_table()
-# insert_book("Конец Вечности","Айзек азимов",1955,"фантастика")
-# insert_book("Конец Вечности","Айзек азимов",1925,"фантастика")
-# insert_book("Конец Вечности","Айзек азимов",1900,"фантастика")
-# get_all_values()
-
-
-# filter_by_year_DESC()
-# print("\n")
-# filter_by_year_ASC()
 
