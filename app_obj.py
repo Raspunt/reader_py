@@ -21,6 +21,7 @@ class app_Objects:
     filterBtn = tk.Button(root, text ="Фильтр", command = app.buttonFilter)
     resetBtn = tk.Button(root, text ="Сбросить", command = app.resetBtn)
     appendBtn = tk.Button(root, text ="Открыть", command = app.OpenBtn)
+    createBtn = tk.Button(root, text ="Создать", command = app.CreateBook)
 
 
 
@@ -48,6 +49,7 @@ class app_Objects:
         self.filterBtn.pack(side=LEFT)
         self.resetBtn.pack(side=LEFT)
         self.appendBtn.pack(side=LEFT)
+        self.createBtn.pack(side=LEFT)
 
         self.books_grid.pack(side=TOP, anchor=NW)
         self.infoLabel2.pack()
